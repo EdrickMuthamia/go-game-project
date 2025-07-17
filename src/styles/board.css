@@ -1,0 +1,50 @@
+.go-board {
+  width: 700px;
+  height: 700px;
+  background: #e0bb7e;
+  border: 25px solid #d1a24b;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  margin: 24px auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.go-board-row {
+  display: flex;
+  flex: 1;
+}
+
+.go-board-intersection {
+  flex: 1;
+  border: 1px solid #222;
+  box-sizing: border-box;
+  position: relative;
+  background: transparent;
+}
+
+.go-board-intersection:first-child {
+  border-left-width: 2px;
+}
+.go-board-intersection:last-child {
+  border-right-width: 2px;
+}
+.go-board-row:first-child .go-board-intersection {
+  border-top-width: 2px;
+}
+.go-board-row:last-child .go-board-intersection {
+  border-bottom-width: 2px;
+}
+
+.go-board-star-point {
+  width: 12px;
+  height: 12px;
+  background: #111;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
