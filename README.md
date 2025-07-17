@@ -31,7 +31,7 @@ This project is a simple implementation of the classic board game **Go**. The ga
 - Advanced rules such as group captures, suicide moves, and 'ko' are not included.
 
 ---
-
+## 
 Enjoy playing Go!
 
 ## Collaborators
