@@ -1,33 +1,43 @@
 import React from "react";
-import Board from "./components/Board.jsx";
-import ScoreBoard from "./components/ScoreBoard.jsx";
-import { useGoGame } from "./logic/useGoGame";
+import Game from "./components/Game.jsx";
+import LandingPage from "./components/LandingPage.jsx";
 import "./styles/board.css";
-
-const BOARD_SIZE = 19;
+import "./styles/landing.css";
 
 function App() {
-  const [resetKey, setResetKey] = React.useState(0);
-  const game = useGoGame(BOARD_SIZE);
+  const [currentView, setCurrentView] = React.useState('landing');
 
-  // Reset handler: force re-mount the game state by changing the key
-  const handleReset = () => {
-    setResetKey((k) => k + 1);
+  // Apply specific body styling for consistent experience
+  React.useEffect(() => {
+    // Reset body styles to defaults
+    document.body.style.margin = "0";
+    document.body.style.padding = "0";
+    document.body.style.overflow = "auto"; // Allow normal scrolling
+    
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.margin = "";
+      document.body.style.padding = "";
+    };
+  }, []);
+
+  const handleStartGame = () => {
+    setCurrentView('game');
   };
 
-  // Re-mount the game state on reset by using the key prop
+  const handleBackToLanding = () => {
+    setCurrentView('landing');
+  };
+
   return (
-    <div className="go-app go-app-large">
-      <div className="go-board-outer">
-        <Board key={resetKey} board={game.board} onPlay={game.playMove} lastMove={game.lastMove} />
-      </div>
-      <div className="go-score-section">
-        <ScoreBoard board={game.board} onReset={handleReset} />
-      </div>
-      <div className="go-current-player go-current-player-large">
-        Current Player: <span className={game.currentPlayer}>{game.currentPlayer}</span>
-      </div>
-    </div>
+    <>
+      {currentView === 'landing' && (
+        <LandingPage onStartGame={handleStartGame} />
+      )}
+      {currentView === 'game' && (
+        <Game onBackToLanding={handleBackToLanding} />
+      )}
+    </>
   );
 }
 
