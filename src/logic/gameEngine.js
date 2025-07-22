@@ -1,95 +1,114 @@
-// Switch turns between players
-export const switchTurn = (currentPlayer) =>
-  currentPlayer === 'black' ? 'white' : 'black';
+// Core Go game logic
 
-// Check if a stone can be placed at the given coordinates
-export const isValidPlacement = (board, coord) => {
-  const { row, col } = coord;
-  const isRowValid = row >= 0 && row < board.length;
-  const isColValid = board[row] && col >= 0 && col < board[row].length;
-  return isRowValid && isColValid && board[row][col] === null;
-};
+/**
+ * @typedef {import('../types').Grid} Grid
+ * @typedef {import('../types').Player} Player
+ */
 
-// Get valid adjacent positions (up, right, down, left)
-const getAdjacentPositions = (board, row, col) => {
-  const positions = [
-    { row: row - 1, col },
-    { row, col: col + 1 },
-    { row: row + 1, col },
-    { row, col: col - 1 }
-  ];
+/**
+ * Create an empty Go board
+ * @param {number} size
+ * @returns {Grid}
+ */
+export function createEmptyBoard(size) {
+  return Array.from({ length: size }, () => Array(size).fill(null));
+}
 
-  const height = board.length;
-  const width = board[0]?.length || 0;
+/**
+ * Get neighbors of a stone
+ * @param {number} row
+ * @param {number} col
+ * @param {number} size
+ * @returns {Array<[number, number]>}
+ */
+function getNeighbors(row, col, size) {
+  const neighbors = [];
+  if (row > 0) neighbors.push([row - 1, col]);
+  if (row < size - 1) neighbors.push([row + 1, col]);
+  if (col > 0) neighbors.push([row, col - 1]);
+  if (col < size - 1) neighbors.push([row, col + 1]);
+  return neighbors;
+}
 
-  return positions.filter(
-    (pos) =>
-      pos.row >= 0 &&
-      pos.row < height &&
-      pos.col >= 0 &&
-      pos.col < width
-  );
-};
+/**
+ * Find a group of connected stones and its liberties
+ * @param {number} startRow
+ * @param {number} startCol
+ * @param {Grid} board
+ * @returns {{stones: Array<[number, number]>, liberties: number}}
+ */
+function findGroup(startRow, startCol, board) {
+  const size = board.length;
+  const player = board[startRow][startCol];
+  if (!player) return { stones: [], liberties: 0 };
 
-// Recursively collect all connected stones of the same color
-const getConnectedGroup = (board, row, col, color, visited = new Set()) => {
-  const key = `${row},${col}`;
-  if (visited.has(key)) return [];
+  const visited = new Set();
+  const queue = [[startRow, startCol]];
+  const groupStones = [];
+  let liberties = 0;
+  const libertyCoords = new Set();
 
-  visited.add(key);
-  let group = [{ row, col }];
+  while (queue.length > 0) {
+    const [row, col] = queue.shift();
+    const key = `${row},${col}`;
 
-  const adjacent = getAdjacentPositions(board, row, col);
-  for (const pos of adjacent) {
-    if (board[pos.row][pos.col] === color) {
-      group = group.concat(
-        getConnectedGroup(board, pos.row, pos.col, color, visited)
-      );
-    }
-  }
+    if (visited.has(key)) continue;
+    visited.add(key);
+    groupStones.push([row, col]);
 
-  return group;
-};
-
-// Check if any stone in the group has liberties
-const groupHasLiberties = (board, group) => {
-  return group.some((pos) => {
-    const adj = getAdjacentPositions(board, pos.row, pos.col);
-    return adj.some((p) => board[p.row][p.col] === null);
-  });
-};
-
-// Check if a stone is part of a surrounded group (no liberties)
-export const isStoneSurrounded = (board, coord) => {
-  const { row, col } = coord;
-  const color = board[row]?.[col];
-
-  if (!color) return false;
-
-  const group = getConnectedGroup(board, row, col, color);
-  return !groupHasLiberties(board, group);
-};
-
-// Capture opponent groups with no liberties after the current move
-export const captureStones = (board, lastMove) => {
-  const { row, col } = lastMove;
-  const currentPlayer = board[row][col];
-  const opponent = currentPlayer === 'black' ? 'white' : 'black';
-  const captured = [];
-
-  const adjacent = getAdjacentPositions(board, row, col);
-
-  for (const pos of adjacent) {
-    if (board[pos.row][pos.col] === opponent) {
-      const group = getConnectedGroup(board, pos.row, pos.col, opponent);
-      if (!groupHasLiberties(board, group)) {
-        group.forEach((stone) => {
-          board[stone.row][stone.col] = null;
-          captured.push(stone);
-        });
+    const neighbors = getNeighbors(row, col, size);
+    for (const [nRow, nCol] of neighbors) {
+      const neighborStone = board[nRow][nCol];
+      if (neighborStone === player && !visited.has(`${nRow},${nCol}`)) {
+        queue.push([nRow, nCol]);
+      } else if (neighborStone === null) {
+        if (!libertyCoords.has(`${nRow},${nCol}`)) {
+          libertyCoords.add(`${nRow},${nCol}`);
+          liberties++;
+        }
       }
     }
   }
 
-  return captured.length;
-};
+  return { stones: groupStones, liberties };
+}
+
+/**
+ * Place a stone and handle captures
+ * @param {Grid} board
+ * @param {number} row
+ * @param {number} col
+ * @param {Player} player
+ * @returns {Grid|null} - new board or null if invalid move
+ */
+export function placeStone(board, row, col, player) {
+  const size = board.length;
+  if (row < 0 || row >= size || col < 0 || col >= size || board[row][col]) {
+    return null; // Invalid move
+  }
+
+  let newBoard = board.map(r => [...r]);
+  newBoard[row][col] = player;
+
+  // Check for captures
+  const opponent = player === 'black' ? 'white' : 'black';
+  const neighbors = getNeighbors(row, col, size);
+  for (const [nRow, nCol] of neighbors) {
+    if (newBoard[nRow][nCol] === opponent) {
+      const group = findGroup(nRow, nCol, newBoard);
+      if (group.liberties === 0) {
+        for (const [sRow, sCol] of group.stones) {
+          newBoard[sRow][sCol] = null;
+        }
+      }
+    }
+  }
+
+  // Check for suicide
+  const ownGroup = findGroup(row, col, newBoard);
+  if (ownGroup.liberties === 0) {
+    return null; // Suicide move
+  }
+
+  return newBoard;
+}   
