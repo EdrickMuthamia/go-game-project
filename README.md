@@ -1,6 +1,6 @@
 # Go Game
 
-SDFT 14-
+SDFT 14
 
 ## Overview
 This project is a simple implementation of the classic board game **Go**. The game is built using React and Vite, and features a basic playable version of Go on a configurable grid (e.g., 9x9 or 13x13).
