@@ -29,7 +29,7 @@ A web-based implementation of the classic board game Go (also known as Weiqi or 
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:EdrickMuthamia/go-game-project.git
    cd GO-game
    ```
 
@@ -188,7 +188,7 @@ This is an MVP implementation focused on core Go gameplay. Contributions are wel
 
 ## 📜 License
 
-[Add your license information here]
+MIT
 
 ---
 
