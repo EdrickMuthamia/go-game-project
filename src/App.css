@@ -40,3 +40,190 @@
 .read-the-docs {
   color: #888;
 }
+
+.go-app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e6f2d6 0%, #f7e7b2 100%);
+}
+
+.go-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  color: #3a2c0a;
+  text-shadow: 0 2px 8px #fff8;
+}
+
+.go-board-container {
+  background: #f7e7b2;
+  padding: 2vw;
+  border-radius: 1.5vw;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10), 0 1.5px 0 #bfa14a inset;
+  border: 2px solid #bfa14a;
+  margin-bottom: 2vw;
+}
+
+.go-board {
+  display: grid;
+  border: 3px solid #bfa14a;
+  background-color: #e2c275;
+  box-shadow: 0 2px 16px #bfa14a44 inset;
+}
+
+.go-cell {
+  width: 2.5vw;
+  height: 2.5vw;
+  min-width: 28px;
+  min-height: 28px;
+  max-width: 48px;
+  max-height: 48px;
+  border: none;
+  background: none;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.go-cell:focus {
+  outline: 2px solid #4a90e2;
+  z-index: 2;
+}
+
+.go-stone {
+  display: block;
+  width: 1.7vw;
+  height: 1.7vw;
+  min-width: 18px;
+  min-height: 18px;
+  max-width: 36px;
+  max-height: 36px;
+  border-radius: 50%;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18), 0 0.5px 0 #fff8 inset;
+  border: 1.5px solid #bfa14a44;
+}
+
+.go-stone.black {
+  background: radial-gradient(circle at 60% 40%, #444 60%, #111 100%);
+  border: 2px solid #222;
+}
+
+.go-stone.white {
+  background: radial-gradient(circle at 60% 40%, #fff 70%, #eee 100%);
+  border: 2px solid #bbb;
+}
+
+.go-star-point {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.6vw;
+  height: 0.6vw;
+  min-width: 7px;
+  min-height: 7px;
+  max-width: 14px;
+  max-height: 14px;
+  background: #222;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.go-current-player {
+  margin-top: 1.5vw;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #3a2c0a;
+  letter-spacing: 1px;
+}
+
+.go-current-player .black {
+  color: #222;
+  font-weight: bold;
+  text-shadow: 0 1px 2px #fff8;
+}
+
+.go-current-player .white {
+  color: #bbb;
+  font-weight: bold;
+  text-shadow: 0 1px 2px #fff8;
+}
+
+/* Large/laptop-specific enhancements */
+.go-app-large {
+  padding: 2vw 0;
+}
+
+.go-title-large {
+  font-size: 2.7vw;
+}
+
+.go-board-container-large {
+  padding: 2.5vw;
+  border-radius: 2vw;
+}
+
+.go-board-large {
+  width: 48vw;
+  height: 48vw;
+  min-width: 540px;
+  min-height: 540px;
+  max-width: 900px;
+  max-height: 900px;
+}
+
+.go-cell-large {
+  width: 2.5vw;
+  height: 2.5vw;
+  min-width: 28px;
+  min-height: 28px;
+  max-width: 48px;
+  max-height: 48px;
+}
+
+.go-stone-large {
+  width: 1.7vw;
+  height: 1.7vw;
+  min-width: 18px;
+  min-height: 18px;
+  max-width: 36px;
+  max-height: 36px;
+}
+
+.go-star-point-large {
+  width: 0.6vw;
+  height: 0.6vw;
+  min-width: 7px;
+  min-height: 7px;
+  max-width: 14px;
+  max-height: 14px;
+}
+
+.go-current-player-large {
+  font-size: 1.5vw;
+  margin-top: 2vw;
+}
+
+.go-cell, .go-cell-large {
+  border: 1.5px solid #bfa14a;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .go-board-large {
+    width: 95vw;
+    height: 95vw;
+    min-width: 0;
+    min-height: 0;
+    max-width: 99vw;
+    max-height: 99vw;
+  }
+}
