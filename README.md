@@ -188,7 +188,7 @@ This is an MVP implementation focused on core Go gameplay. Contributions are wel
 
 ## 📜 License
 
- MIT
+
 
 ---
 
