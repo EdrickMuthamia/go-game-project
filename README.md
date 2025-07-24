@@ -1,6 +1,6 @@
 # Go Game MVP
 
-A web-based implementation of the classic board game Go (also known as Weiqi or Baduk) built with React and Vite. This MVP provides core gameplay functionality including stone placement, capture mechanics, and basic scoring.
+SDFT-14
 
 ## 🎯 Features
 
@@ -189,7 +189,6 @@ This is an MVP implementation focused on core Go gameplay. Contributions are wel
 ## 📜 License
 
 MIT
-
 ---
 
 **Enjoy playing Go!** 🥌
