@@ -11,6 +11,36 @@ body {
   background: #6bb3a7;
 }
 
+/* Board Container and Header */
+.board-container {
+  position: relative;
+}
+
+.board-header {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 10px 10px 0;
+}
+
+.how-to-play-btn {
+  background: rgba(212, 153, 93, 0.9);
+  color: #2c5530;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(212, 153, 93, 0.3);
+}
+
+.how-to-play-btn:hover {
+  background: #d4995d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 153, 93, 0.4);
+}
+
 .go-board-outer {
   background: #e0b04b;
   border-radius: 16px;
@@ -305,5 +335,188 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* How to Play Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+  backdrop-filter: blur(5px);
+}
+
+.popup-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: popupSlideIn 0.3s ease-out;
+}
+
+@keyframes popupSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 30px 20px;
+  border-bottom: 2px solid #f0f0f0;
+  background: linear-gradient(135deg, #4fd1c7 0%, #63d8cc 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+.popup-header h2 {
+  margin: 0;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+.popup-body {
+  padding: 30px;
+  color: #2c3e50;
+}
+
+.welcome-message {
+  background: linear-gradient(135deg, #e8f5e8, #f0f8f0);
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  border-left: 4px solid #4fd1c7;
+}
+
+.welcome-message p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #2c5530;
+  font-weight: 500;
+  text-align: center;
+}
+
+.rule-section {
+  margin-bottom: 25px;
+}
+
+.rule-section h3 {
+  color: #2c5530;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rule-section p {
+  line-height: 1.6;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.rule-section ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.rule-section li {
+  line-height: 1.5;
+  margin-bottom: 8px;
+  color: #555;
+}
+
+.rule-section li strong {
+  color: #2c5530;
+  font-weight: 600;
+}
+
+.tips {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #d4995d;
+}
+
+.popup-footer {
+  padding: 20px 30px 30px;
+  text-align: center;
+  border-top: 1px solid #f0f0f0;
+}
+
+.got-it-btn {
+  background: linear-gradient(135deg, #d4995d, #c28a4d);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(212, 153, 93, 0.3);
+}
+
+.got-it-btn:hover {
+  background: linear-gradient(135deg, #c28a4d, #b17a43);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(212, 153, 93, 0.4);
+}
+
+/* Responsive Design for Popup */
+@media (max-width: 768px) {
+  .popup-content {
+    max-width: 95%;
+    max-height: 85vh;
+  }
+  
+  .popup-header, .popup-body, .popup-footer {
+    padding: 20px;
+  }
+  
+  .popup-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .rule-section h3 {
+    font-size: 1.2rem;
   }
 }

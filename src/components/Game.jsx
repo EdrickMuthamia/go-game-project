@@ -33,6 +33,8 @@ function Game({ onBackToHome }) {
   const handleReset = () => {
     game.resetGame();
     setShowRestoredMessage(false);
+    // Reset tutorial state so it shows again on next game
+    localStorage.removeItem('goGameTutorialSeen');
   };
 
   return (
